@@ -2,5 +2,5 @@
 
 export default (req, res) => {
   res.statusCode = 200
-  res.json({ name: process.env.FAUNA_SERVER_KEY});
+  res.json({ name: "John Doe"});
 }
