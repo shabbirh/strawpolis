@@ -1,24 +1,23 @@
-import Head from 'next/head'
+import Link from 'next/link'
+import {getAllPolls} from '../db';
 
-import {useEffect, useState} from 'react'; 
+const Page = ({polls}) => {
+  return <ul>
+    {polls.map(p => {
+      return <li>
+        <Link href={`/polls/${p.slug}`}>{p.title}</Link>
+      </li>
+    })}
+  </ul>
+}
 
-export default function Home() {
-  const [name, setName] = useState('initial');
-  useEffect(() =>{
-    fetch('api/polls/murica2')
-    .then(res => res.json())
-    .then((data) => {
-      setName(data.slug)
-    })
-  },[name])
-  return (
-    <div>
-      <Head>
-        <title>hello {name}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      hello {name}
-    </div>
-  )
+export default Page;
+export async function getServerSideProps(context){
+  let {data} = await getAllPolls();
+  let polls = data.map(d => ({title: d[1], slug: d[0]}))
+  return {
+    props: {
+      polls
+    }
+  }
 }

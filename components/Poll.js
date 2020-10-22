@@ -1,10 +1,13 @@
-import {useEffect, useState} from 'react';
+import PollItem from './PollItem';
 export default function Poll(props) {
-    const [poll, setPoll] = useState([]);
-    useEffect(() => {
-        fetch(`/api/polls/${props.slug}`)
-        .then(res => res.json())
-        .then( ({poll}) => setPoll(poll))
-    }, [props.slug])
-    return <ul>{poll.map(([item, count], index) => <li key={index}>{`${item}: ${count}`}</li>)}</ul>
+    return <>
+        <h1>{props.title}</h1>
+        <ul>
+            {props.poll.map(([name, count], index) => (
+                <li key={index}>
+                    <PollItem name={name} count={count}></PollItem>
+                </li>
+            ))}
+        </ul>
+    </>
 }

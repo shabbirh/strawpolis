@@ -6,10 +6,7 @@ const {
     Get,
     Match,
     Index,
-    Create,
     Collection,
-    Join,
-    Call,
 } = query;
 
 let client = new Client({secret: process.env.FAUNA_SERVER_KEY });
@@ -27,9 +24,9 @@ export function getPollBySlug(slug) {
 
 export function getAllPolls(){
     return client.query(
-        Get(
+        Paginate(
             Match(
-                Index('all_polls')
+                Index('all_polls_summary')
             )
         )
     )
